@@ -111,25 +111,40 @@ namespace LibGit2Sharp
         /// </summary>
         /// <param name="name">The name of the branch.</param>
         /// <param name="commit">The target commit.</param>
+        /// <param name="signature">Identity used for updating the reflog</param>
+        /// <param name="logMessage">Message added to the reflog. If null, the default is "branch: Created from [sha]".</param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
-        /// <returns>A new <see cref="Branch"/>.</returns>
-        public virtual Branch Add(string name, Commit commit, bool allowOverwrite = false)
+        /// <returns></returns>
+        public virtual Branch Add(string name, Commit commit, Signature signature, string logMessage = null, bool allowOverwrite = false)
         {
             Ensure.ArgumentNotNullOrEmptyString(name, "name");
             Ensure.ArgumentNotNull(commit, "commit");
 
-            return Add(name, commit, allowOverwrite, "branch: Created from " + commit.Id);
-        }
+            if (signature == null)
+            {
+                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
+            }
+            if (logMessage == null)
+            {
+                logMessage = "branch: Created from " + commit.Id;
+            }
 
-        internal Branch Add(string name, Commit commit, bool allowOverwrite, string logMessage)
-        {
-            Ensure.ArgumentNotNull(commit, "commit");
-
-            using (Proxy.git_branch_create(repo.Handle, name, commit.Id, allowOverwrite)) {}
+            using (Proxy.git_branch_create(repo.Handle, name, commit.Id, allowOverwrite, signature, logMessage)) {}
 
             var branch = this[ShortToLocalName(name)];
-            LogBranch(branch, logMessage);
             return branch;
+        }
+
+        /// <summary>
+        /// Create a new local branch with the specified name and a default reflog message
+        /// </summary>
+        /// <param name="name">The name of the branch.</param>
+        /// <param name="commit">The target commit.</param>
+        /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
+        /// <returns>A new <see cref="Branch"/>.</returns>
+        public virtual Branch Add(string name, Commit commit, bool allowOverwrite = false)
+        {
+            return Add(name, commit, null, null, allowOverwrite);
         }
 
         /// <summary>
@@ -147,13 +162,16 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Renames an existing local branch with a new name.
+        /// Rename an existing local branch, and update the reflog with the given parameters.
         /// </summary>
         /// <param name="branch">The current local branch.</param>
         /// <param name="newName">The new name the existing branch should bear.</param>
+        /// <param name="signature">Identity used for updating the reflog</param>
+        /// <param name="logMessage">Message added to the reflog. If null, the default is "branch: renamed [old] to [new]".</param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
-        /// <returns>A new <see cref="Branch"/>.</returns>
-        public virtual Branch Move(Branch branch, string newName, bool allowOverwrite = false)
+        /// <returns></returns>
+        /// <exception cref="LibGit2SharpException"></exception>
+        public virtual Branch Move(Branch branch, string newName, Signature signature, string logMessage = null, bool allowOverwrite = false)
         {
             Ensure.ArgumentNotNull(branch, "branch");
             Ensure.ArgumentNotNullOrEmptyString(newName, "newName");
@@ -165,16 +183,37 @@ namespace LibGit2Sharp
                         "Cannot rename branch '{0}'. It's a remote tracking branch.", branch.Name));
             }
 
+            if (signature == null)
+            {
+                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
+            }
+            if (logMessage == null)
+            {
+                logMessage = string.Format(CultureInfo.InvariantCulture,
+                    "Branch: renamed {0} to {1}", branch.CanonicalName, Reference.LocalBranchPrefix + newName);
+            }
+
             using (ReferenceSafeHandle referencePtr = repo.Refs.RetrieveReferencePtr(Reference.LocalBranchPrefix + branch.Name))
             {
-                using (ReferenceSafeHandle ref_out = Proxy.git_branch_move(referencePtr, newName, allowOverwrite))
+                using (Proxy.git_branch_move(referencePtr, newName, allowOverwrite, signature, logMessage))
                 {
                 }
             }
 
             var newBranch = this[newName];
-            LogBranch(newBranch, "Branch: renamed " + branch.CanonicalName + " to " + newBranch.CanonicalName);
             return newBranch;
+        }
+
+        /// <summary>
+        /// Renames an existing local branch with a new name.
+        /// </summary>
+        /// <param name="branch">The current local branch.</param>
+        /// <param name="newName">The new name the existing branch should bear.</param>
+        /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
+        /// <returns>A new <see cref="Branch"/>.</returns>
+        public virtual Branch Move(Branch branch, string newName, bool allowOverwrite = false)
+        {
+            return Move(branch, newName, null, null, allowOverwrite);
         }
 
         /// <summary>
@@ -218,7 +257,7 @@ namespace LibGit2Sharp
                 return;
             }
 
-            repo.Refs.Log(branch.CanonicalName).Append(branch.Tip.Id, logMessage, branch.Tip.Committer);
+            repo.Refs.Log(branch.CanonicalName).Append(branch.Tip.Id, branch.Tip.Committer, logMessage);
         }
     }
 }

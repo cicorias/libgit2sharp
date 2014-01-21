@@ -41,7 +41,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   "branch: Created from " + committish,
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
 
                 repo.Branches.Remove(newBranch.Name);
                 Assert.Null(repo.Branches[name]);
@@ -100,7 +100,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   "branch: Created from " + committish,
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
 
@@ -129,7 +129,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   "branch: Created from " + headCommitOrBranchSpec,
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
 
@@ -153,7 +153,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   "branch: Created from " + headCommitOrBranchSpec,
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
 
@@ -174,7 +174,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   "branch: Created from " + newBranch.Tip.Sha,
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
 
@@ -196,7 +196,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   "branch: Created from " + committish,
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
 
@@ -219,7 +219,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   "branch: Created from " + committish,
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
 
@@ -491,7 +491,7 @@ namespace LibGit2Sharp.Tests
             {
                 Branch master = repo.Branches["master"];
                 const string logMessage = "update target message";
-                repo.Refs.UpdateTarget("refs/remotes/origin/master", "origin/test", logMessage);
+                repo.Refs.UpdateTarget("refs/remotes/origin/master", "origin/test", Constants.Signature, logMessage);
 
                 Assert.True(master.IsTracking);
                 Assert.NotNull(master.TrackedBranch);
@@ -848,7 +848,7 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   string.Format("Branch: renamed {0} to {1}", br2.CanonicalName, newBranch.CanonicalName),
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
 
@@ -889,7 +889,8 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
                                   string.Format("Branch: renamed {0} to {1}", br2.CanonicalName, newBranch.CanonicalName),
-                                  committer: newBranch.Tip.Committer);
+                                  committer: repo.Config.BuildSignature(DateTimeOffset.Now),
+                                  from: test.Tip.Id);
             }
         }
 

@@ -17,6 +17,22 @@ namespace LibGit2Sharp
         /// <returns>A new <see cref="Branch"/>.</returns>
         public static Branch Add(this BranchCollection branches, string name, string committish, bool allowOverwrite = false)
         {
+            return Add(branches, name, committish, null, null, allowOverwrite);
+        }
+
+        /// <summary>
+        /// Create a new local branch with the specified name
+        /// </summary>
+        /// <param name="branches">The <see cref="BranchCollection"/> being worked with.</param>
+        /// <param name="name">The name of the branch.</param>
+        /// <param name="committish">Revparse spec for the target commit.</param>
+        /// <param name="signature">The identity used for updating the reflog</param>
+        /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/></param>
+        /// <param name="allowOverwrite"></param>
+        /// <returns></returns>
+        public static Branch Add(this BranchCollection branches, string name, string committish, Signature signature,
+            string logMessage = null, bool allowOverwrite = false)
+        {
             Ensure.ArgumentNotNullOrEmptyString(name, "name");
             Ensure.ArgumentNotNullOrEmptyString(committish, "committish");
 
@@ -28,7 +44,7 @@ namespace LibGit2Sharp
                                         ? commit.Sha
                                         : branches.repo.Head.Name;
 
-            return branches.Add(name, commit, allowOverwrite, "branch: Created from " + createdFrom);
+            return branches.Add(name, commit, signature, "branch: Created from " + createdFrom, allowOverwrite);
         }
 
         /// <summary>

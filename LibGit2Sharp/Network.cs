@@ -96,7 +96,17 @@ namespace LibGit2Sharp
             }
         }
 
-        static void DoFetch(RemoteSafeHandle remoteHandle, FetchOptions options)
+        static Signature SignatureOrDefault(Signature signature, Repository repo)
+        {
+            if (signature != null)
+            {
+                return signature;
+            }
+
+            return repo.Config.BuildSignature(DateTimeOffset.Now);
+        }
+
+        static void DoFetch(RemoteSafeHandle remoteHandle, FetchOptions options, Signature signature, string logMessage)
         {
             if (options == null)
             {
@@ -121,11 +131,16 @@ namespace LibGit2Sharp
             // GC occuring in between setting the remote callbacks and actual usage in one of the functions afterwords.
             Proxy.git_remote_set_callbacks(remoteHandle, ref gitCallbacks);
 
+            // Default signature
+            if (signature == null)
+            {
+            }
+
             try
             {
                 Proxy.git_remote_connect(remoteHandle, GitDirection.Fetch);
                 Proxy.git_remote_download(remoteHandle);
-                Proxy.git_remote_update_tips(remoteHandle);
+                Proxy.git_remote_update_tips(remoteHandle, signature, logMessage);
             }
             finally
             {
@@ -138,13 +153,15 @@ namespace LibGit2Sharp
         /// </summary>
         /// <param name="remote">The remote to fetch</param>
         /// <param name="options"><see cref="FetchOptions"/> controlling fetch behavior</param>
-        public virtual void Fetch(Remote remote, FetchOptions options = null)
+        public virtual void Fetch(Remote remote, FetchOptions options = null,
+            Signature signature = null,
+            string logMessage = null)
         {
             Ensure.ArgumentNotNull(remote, "remote");
 
             using (RemoteSafeHandle remoteHandle = Proxy.git_remote_load(repository.Handle, remote.Name, true))
             {
-                DoFetch(remoteHandle, options);
+                DoFetch(remoteHandle, options, SignatureOrDefault(signature, repository), logMessage);
             }
         }
 
@@ -154,7 +171,9 @@ namespace LibGit2Sharp
         /// <param name="remote">The remote to fetch</param>
         /// <param name="refspecs">Refspecs to use, replacing the remote's fetch refspecs</param>
         /// <param name="options"><see cref="FetchOptions"/> controlling fetch behavior</param>
-        public virtual void Fetch(Remote remote, IEnumerable<string> refspecs, FetchOptions options = null)
+        public virtual void Fetch(Remote remote, IEnumerable<string> refspecs, FetchOptions options = null,
+            Signature signature = null,
+            string logMessage = null)
         {
             Ensure.ArgumentNotNull(remote, "remote");
             Ensure.ArgumentNotNull(refspecs, "refspecs");
@@ -163,7 +182,7 @@ namespace LibGit2Sharp
             {
                 Proxy.git_remote_set_fetch_refspecs(remoteHandle, refspecs);
 
-                DoFetch(remoteHandle, options);
+                DoFetch(remoteHandle, options, SignatureOrDefault(signature, repository), logMessage);
             }
         }
 
@@ -176,7 +195,9 @@ namespace LibGit2Sharp
         public virtual void Fetch(
             string url,
             IEnumerable<string> refspecs,
-            FetchOptions options = null)
+            FetchOptions options = null,
+            Signature signature = null,
+            string logMessage = null)
         {
             Ensure.ArgumentNotNull(url, "url");
             Ensure.ArgumentNotNull(refspecs, "refspecs");
@@ -185,7 +206,7 @@ namespace LibGit2Sharp
             {
                 Proxy.git_remote_set_fetch_refspecs(remoteHandle, refspecs);
 
-                DoFetch(remoteHandle, options);
+                DoFetch(remoteHandle, options, SignatureOrDefault(signature, repository), logMessage);
             }
         }
 
@@ -236,7 +257,9 @@ namespace LibGit2Sharp
         public virtual void Push(
             Remote remote,
             IEnumerable<string> pushRefSpecs,
-            PushOptions pushOptions = null)
+            PushOptions pushOptions = null,
+            Signature signature = null,
+            string logMessage = null)
         {
             Ensure.ArgumentNotNull(remote, "remote");
             Ensure.ArgumentNotNull(pushRefSpecs, "pushRefSpecs");
@@ -306,7 +329,13 @@ namespace LibGit2Sharp
 
                         Proxy.git_push_status_foreach(pushHandle, pushStatusUpdates.Callback);
 
-                        Proxy.git_push_update_tips(pushHandle);
+                        // Default signature
+                        if (signature == null)
+                        {
+                            signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+                        }
+
+                        Proxy.git_push_update_tips(pushHandle, signature, logMessage);
                     }
                 }
                 finally

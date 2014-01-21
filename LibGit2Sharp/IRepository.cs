@@ -170,7 +170,7 @@ namespace LibGit2Sharp
         /// </summary>
         /// <param name="resetMode">Flavor of reset operation to perform.</param>
         /// <param name="commit">The target commit object.</param>
-        void Reset(ResetMode resetMode, Commit commit);
+        void Reset(ResetMode resetMode, Commit commit, Signature signature = null, string logMessage = null);
 
         /// <summary>
         /// Replaces entries in the <see cref="Repository.Index"/> with entries from the specified commit.

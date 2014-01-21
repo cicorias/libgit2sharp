@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using LibGit2Sharp.Core.Handles;
 
 namespace LibGit2Sharp.Core
 {
@@ -16,5 +17,6 @@ namespace LibGit2Sharp.Core
 
         public IntPtr RemoteName;
         public IntPtr CheckoutBranch;
+        public IntPtr signature; // Really a SignatureSafeHandle
     }
 }

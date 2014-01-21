@@ -358,7 +358,8 @@ namespace LibGit2Sharp.Tests.TestHelpers
             }
             else
             {
-                Assert.Equal(committer, reflogEntry.Commiter);
+                Assert.Equal(committer.Email, reflogEntry.Commiter.Email);
+                Assert.True(committer.When - reflogEntry.Commiter.When < TimeSpan.FromSeconds(1));
             }
         }
 
