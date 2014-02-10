@@ -349,7 +349,7 @@ namespace LibGit2Sharp.Tests
 
                 Tree tree = repo.ObjectDatabase.CreateTree(td);
 
-                Commit commit = repo.ObjectDatabase.CreateCommit(Constants.Signature, Constants.Signature, "Ü message", false, tree, new[] { repo.Head.Tip });
+                Commit commit = repo.ObjectDatabase.CreateCommit(Constants.Signature, Constants.Signature, "Ü message", true, tree, new[] { repo.Head.Tip });
 
                 Branch newHead = repo.Head;
 
