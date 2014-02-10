@@ -153,6 +153,8 @@ namespace LibGit2Sharp
         /// </summary>
         /// <param name="remote">The remote to fetch</param>
         /// <param name="options"><see cref="FetchOptions"/> controlling fetch behavior</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
+        /// <param name="logMessage">Message to use when updating the reflog.</param>
         public virtual void Fetch(Remote remote, FetchOptions options = null,
             Signature signature = null,
             string logMessage = null)
@@ -171,6 +173,8 @@ namespace LibGit2Sharp
         /// <param name="remote">The remote to fetch</param>
         /// <param name="refspecs">Refspecs to use, replacing the remote's fetch refspecs</param>
         /// <param name="options"><see cref="FetchOptions"/> controlling fetch behavior</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
+        /// <param name="logMessage">Message to use when updating the reflog.</param>
         public virtual void Fetch(Remote remote, IEnumerable<string> refspecs, FetchOptions options = null,
             Signature signature = null,
             string logMessage = null)
@@ -192,6 +196,8 @@ namespace LibGit2Sharp
         /// <param name="url">The url to fetch from</param>
         /// <param name="refspecs">The list of resfpecs to use</param>
         /// <param name="options"><see cref="FetchOptions"/> controlling fetch behavior</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
+        /// <param name="logMessage">Message to use when updating the reflog.</param>
         public virtual void Fetch(
             string url,
             IEnumerable<string> refspecs,
@@ -254,6 +260,8 @@ namespace LibGit2Sharp
         /// <param name="remote">The <see cref="Remote"/> to push to.</param>
         /// <param name="pushRefSpecs">The pushRefSpecs to push.</param>
         /// <param name="pushOptions"><see cref="PushOptions"/> controlling push behavior</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
+        /// <param name="logMessage">Message to use when updating the reflog.</param>
         public virtual void Push(
             Remote remote,
             IEnumerable<string> pushRefSpecs,
