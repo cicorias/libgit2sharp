@@ -2007,6 +2007,10 @@ namespace LibGit2Sharp.Core
             using (var buf = new GitBuf())
             {
                 int res = NativeMethods.git_repository_message(buf, repo);
+                if (res == (int)GitErrorCode.NotFound)
+                {
+                    return null;
+                }
                 Ensure.ZeroResult(res);
 
                 return LaxUtf8Marshaler.FromNative(buf.ptr);
