@@ -175,7 +175,7 @@ namespace LibGit2Sharp.Tests
             {
                 EnableRefLog(repo);
 
-                var oldRef = (DirectReference)repo.Refs[name];
+                var oldtarget = repo.Refs[name].ResolveToDirectReference().Target.Id;
                 var newRef = (SymbolicReference)repo.Refs.Add(name, target, Constants.Signature, logMessage, true);
                 Assert.NotNull(newRef);
                 Assert.Equal(name, newRef.CanonicalName);
@@ -185,7 +185,7 @@ namespace LibGit2Sharp.Tests
 
                 AssertRefLogEntry(repo, name,
                                   newRef.ResolveToDirectReference().Target.Id,
-                                  logMessage, oldRef.Target.Id);
+                                  logMessage, oldtarget);
             }
         }
 
@@ -494,7 +494,8 @@ namespace LibGit2Sharp.Tests
                 var testTargetId = test.ResolveToDirectReference().Target.Id;
                 AssertRefLogEntry(repo, "HEAD",
                                   testTargetId,
-                                  firstLogMessage);
+                                  firstLogMessage,
+                                  head.ResolveToDirectReference().Target.Id);
 
                 const string secondLogMessage = "second update target message";
                 Reference symref = repo.Refs.UpdateTarget(head, test, Constants.Signature, secondLogMessage);
