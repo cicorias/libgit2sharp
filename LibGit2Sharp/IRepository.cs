@@ -81,8 +81,9 @@ namespace LibGit2Sharp
         /// <param name="checkoutModifiers"><see cref="CheckoutModifiers"/> controlling checkout behavior.</param>
         /// <param name="onCheckoutProgress"><see cref="CheckoutProgressHandler"/> that checkout progress is reported through.</param>
         /// <param name="checkoutNotificationOptions"><see cref="CheckoutNotificationOptions"/> to manage checkout notifications.</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
         /// <returns>The <see cref="Branch"/> that was checked out.</returns>
-        Branch Checkout(Branch branch, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions);
+        Branch Checkout(Branch branch, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions, Signature signature = null);
 
         /// <summary>
         /// Checkout the specified branch, reference or SHA.
@@ -95,8 +96,9 @@ namespace LibGit2Sharp
         /// <param name="checkoutModifiers">Options controlling checkout behavior.</param>
         /// <param name="onCheckoutProgress">Callback method to report checkout progress updates through.</param>
         /// <param name="checkoutNotificationOptions"><see cref="CheckoutNotificationOptions"/> to manage checkout notifications.</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
         /// <returns>The <see cref="Branch"/> that was checked out.</returns>
-        Branch Checkout(string committishOrBranchSpec, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions);
+        Branch Checkout(string committishOrBranchSpec, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions, Signature signature = null);
 
         /// <summary>
         /// Checkout the specified <see cref="Commit"/>.
@@ -108,8 +110,9 @@ namespace LibGit2Sharp
         /// <param name="checkoutModifiers"><see cref="CheckoutModifiers"/> controlling checkout behavior.</param>
         /// <param name="onCheckoutProgress"><see cref="CheckoutProgressHandler"/> that checkout progress is reported through.</param>
         /// <param name="checkoutNotificationOptions"><see cref="CheckoutNotificationOptions"/> to manage checkout notifications.</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
         /// <returns>The <see cref="Branch"/> that was checked out.</returns>
-        Branch Checkout(Commit commit, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions);
+        Branch Checkout(Commit commit, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions, Signature signature = null);
 
         /// <summary>
         /// Updates specifed paths in the index and working directory with the versions from the specified branch, reference, or SHA.

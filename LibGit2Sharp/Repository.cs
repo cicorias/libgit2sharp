@@ -609,8 +609,9 @@ namespace LibGit2Sharp
         /// <param name="checkoutModifiers"><see cref="CheckoutModifiers"/> controlling checkout behavior.</param>
         /// <param name="onCheckoutProgress"><see cref="CheckoutProgressHandler"/> that checkout progress is reported through.</param>
         /// <param name="checkoutNotifications"><see cref="CheckoutNotificationOptions"/> to manage checkout notifications.</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
         /// <returns>The <see cref="Branch"/> that was checked out.</returns>
-        public Branch Checkout(string committishOrBranchSpec, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotifications)
+        public Branch Checkout(string committishOrBranchSpec, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotifications, Signature signature = null)
         {
             Ensure.ArgumentNotNullOrEmptyString(committishOrBranchSpec, "committishOrBranchSpec");
 
@@ -645,7 +646,7 @@ namespace LibGit2Sharp
             }
 
             Commit commit = obj.DereferenceToCommit(true);
-            Checkout(commit.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotifications, commit.Id.Sha, committishOrBranchSpec);
+            Checkout(commit.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotifications, commit.Id.Sha, committishOrBranchSpec, signature);
 
             return Head;
         }
@@ -659,8 +660,9 @@ namespace LibGit2Sharp
         /// <param name="checkoutModifiers"><see cref="CheckoutModifiers"/> controlling checkout behavior.</param>
         /// <param name="onCheckoutProgress"><see cref="CheckoutProgressHandler"/> that checkout progress is reported through.</param>
         /// <param name="checkoutNotificationOptions"><see cref="CheckoutNotificationOptions"/> to manage checkout notifications.</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
         /// <returns>The <see cref="Branch"/> that was checked out.</returns>
-        public Branch Checkout(Branch branch, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions)
+        public Branch Checkout(Branch branch, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions, Signature signature = null)
         {
             Ensure.ArgumentNotNull(branch, "branch");
 
@@ -676,11 +678,11 @@ namespace LibGit2Sharp
                 string.Equals(Refs[branch.CanonicalName].TargetIdentifier, branch.Tip.Id.Sha,
                 StringComparison.OrdinalIgnoreCase))
             {
-                Checkout(branch.Tip.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotificationOptions, branch.CanonicalName, branch.Name);
+                Checkout(branch.Tip.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotificationOptions, branch.CanonicalName, branch.Name, signature);
             }
             else
             {
-                Checkout(branch.Tip.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotificationOptions, branch.Tip.Id.Sha, branch.Name);
+                Checkout(branch.Tip.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotificationOptions, branch.Tip.Id.Sha, branch.Name, signature);
             }
 
             return Head;
@@ -696,10 +698,11 @@ namespace LibGit2Sharp
         /// <param name="checkoutModifiers"><see cref="CheckoutModifiers"/> controlling checkout behavior.</param>
         /// <param name="onCheckoutProgress"><see cref="CheckoutProgressHandler"/> that checkout progress is reported through.</param>
         /// <param name="checkoutNotificationOptions"><see cref="CheckoutNotificationOptions"/> to manage checkout notifications.</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
         /// <returns>The <see cref="Branch"/> that was checked out.</returns>
-        public Branch Checkout(Commit commit, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions)
+        public Branch Checkout(Commit commit, CheckoutModifiers checkoutModifiers, CheckoutProgressHandler onCheckoutProgress, CheckoutNotificationOptions checkoutNotificationOptions, Signature signature = null)
         {
-            Checkout(commit.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotificationOptions, commit.Id.Sha, commit.Id.Sha);
+            Checkout(commit.Tree, checkoutModifiers, onCheckoutProgress, checkoutNotificationOptions, commit.Id.Sha, commit.Id.Sha, signature);
 
             return Head;
         }
@@ -729,7 +732,7 @@ namespace LibGit2Sharp
             CheckoutModifiers checkoutModifiers,
             CheckoutProgressHandler onCheckoutProgress,
             CheckoutNotificationOptions checkoutNotificationOptions,
-            string headTarget, string refLogHeadSpec, Signature signature = null)
+            string headTarget, string refLogHeadSpec, Signature signature)
         {
             var previousHeadName = Info.IsHeadDetached ? Head.Tip.Sha : Head.Name;
 
@@ -794,6 +797,8 @@ namespace LibGit2Sharp
         /// </summary>
         /// <param name="resetMode">Flavor of reset operation to perform.</param>
         /// <param name="commit">The target commit object.</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
+        /// <param name="logMessage">Message to use when updating the reflog.</param>
         public void Reset(ResetMode resetMode, Commit commit, Signature signature = null, string logMessage = null)
         {
             Ensure.ArgumentNotNull(commit, "commit");
