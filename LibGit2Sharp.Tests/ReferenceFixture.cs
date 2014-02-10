@@ -100,13 +100,10 @@ namespace LibGit2Sharp.Tests
 
                 var targetRef = repo.Refs[target];
 
+                repo.Refs.EnsureHasLog(name);
                 var newRef = repo.Refs.Add(name, targetRef, Constants.Signature, logMessage);
 
                 AssertSymbolicRef(newRef, repo, target, name);
-
-                AssertRefLogEntry(repo, name,
-                                  newRef.ResolveToDirectReference().Target.Id,
-                                  logMessage);
             }
         }
 
@@ -152,6 +149,7 @@ namespace LibGit2Sharp.Tests
             {
                 EnableRefLog(repo);
 
+                var oldRef = repo.Refs[name];
                 var newRef = (DirectReference)repo.Refs.Add(name, target, Constants.Signature, logMessage, true);
                 Assert.NotNull(newRef);
                 Assert.Equal(name, newRef.CanonicalName);
@@ -161,7 +159,7 @@ namespace LibGit2Sharp.Tests
 
                 AssertRefLogEntry(repo, name,
                                   newRef.ResolveToDirectReference().Target.Id,
-                                  logMessage);
+                                  logMessage, ((DirectReference)oldRef).Target.Id);
             }
         }
 
@@ -177,6 +175,7 @@ namespace LibGit2Sharp.Tests
             {
                 EnableRefLog(repo);
 
+                var oldRef = (DirectReference)repo.Refs[name];
                 var newRef = (SymbolicReference)repo.Refs.Add(name, target, Constants.Signature, logMessage, true);
                 Assert.NotNull(newRef);
                 Assert.Equal(name, newRef.CanonicalName);
@@ -186,7 +185,7 @@ namespace LibGit2Sharp.Tests
 
                 AssertRefLogEntry(repo, name,
                                   newRef.ResolveToDirectReference().Target.Id,
-                                  logMessage);
+                                  logMessage, oldRef.Target.Id);
             }
         }
 
