@@ -61,7 +61,7 @@ namespace LibGit2Sharp.Tests
                 Commit commit = repo.Commit(commitMessage, author, author);
 
                 // Assert a reflog entry is created on HEAD
-                Assert.Equal(1, repo.Refs.Log("HEAD").Count());
+                Assert.Equal(2, repo.Refs.Log("HEAD").Count());
                 var reflogEntry = repo.Refs.Log("HEAD").First();
                 Assert.Equal(author, reflogEntry.Commiter);
                 Assert.Equal(commit.Id, reflogEntry.To);
@@ -179,12 +179,10 @@ namespace LibGit2Sharp.Tests
                 Assert.Equal(directLogEntry.Commiter, repo.Config.BuildSignature(directLogEntry.Commiter.When));
                 Assert.True(string.IsNullOrEmpty(directLogEntry.Message));
 
+                repo.Refs.EnsureHasLog("refs/heads/symbolic");
                 var symbolic = repo.Refs.Add("refs/heads/symbolic", direct);
                 var symbolicLog = repo.Refs.Log(symbolic);
-                Assert.Equal(1, symbolicLog.Count());
-                var symbolicLogEntry = symbolicLog.First();
-                Assert.Equal(symbolicLogEntry.Commiter, repo.Config.BuildSignature(symbolicLogEntry.Commiter.When));
-                Assert.True(string.IsNullOrEmpty(symbolicLogEntry.Message));
+                Assert.Equal(0, symbolicLog.Count()); // creation of symbolic refs doesn't update the reflog
             }
         }
     }
