@@ -99,6 +99,7 @@ namespace LibGit2Sharp.Tests
 
                 Tag tag = repo.Tags["mytag"];
                 Branch branch = repo.Branches["mybranch"];
+                string reflogName = shouldHeadBeDetached ? "HEAD" : branch.CanonicalName;
 
                 string branchIdentifier = branchIdentifierRetriever(branch);
                 repo.Checkout(branchIdentifier);
@@ -116,7 +117,7 @@ namespace LibGit2Sharp.Tests
 
                 Assert.Equal(FileStatus.Staged, repo.Index.RetrieveStatus("a.txt"));
 
-                AssertRefLogEntry(repo, "refs/heads/mybranch",
+                AssertRefLogEntry(repo, reflogName,
                                   tag.Target.Id,
                                   string.Format("reset: moving to {0}", tag.Target.Sha),
                                   oldHeadId);
@@ -128,7 +129,7 @@ namespace LibGit2Sharp.Tests
 
                 Assert.Equal(FileStatus.Unaltered, repo.Index.RetrieveStatus("a.txt"));
 
-                AssertRefLogEntry(repo, "refs/heads/mybranch",
+                AssertRefLogEntry(repo, reflogName,
                                   branch.Tip.Id,
                                   string.Format("reset: moving to {0}", branch.Tip.Sha),
                                   tag.Target.Id);
