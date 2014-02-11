@@ -116,7 +116,7 @@ namespace LibGit2Sharp.Tests
 
                 Assert.Equal(FileStatus.Staged, repo.Index.RetrieveStatus("a.txt"));
 
-                AssertRefLogEntry(repo, "HEAD",
+                AssertRefLogEntry(repo, "refs/heads/mybranch",
                                   tag.Target.Id,
                                   string.Format("reset: moving to {0}", tag.Target.Sha),
                                   oldHeadId);
@@ -128,7 +128,7 @@ namespace LibGit2Sharp.Tests
 
                 Assert.Equal(FileStatus.Unaltered, repo.Index.RetrieveStatus("a.txt"));
 
-                AssertRefLogEntry(repo, "HEAD",
+                AssertRefLogEntry(repo, "refs/heads/mybranch",
                                   branch.Tip.Id,
                                   string.Format("reset: moving to {0}", branch.Tip.Sha),
                                   tag.Target.Id);
@@ -171,7 +171,7 @@ namespace LibGit2Sharp.Tests
 
                 Assert.Equal(FileStatus.Modified, repo.Index.RetrieveStatus("a.txt"));
 
-                AssertRefLogEntry(repo, "HEAD",
+                AssertRefLogEntry(repo, "refs/heads/mybranch",
                                   tag.Target.Id,
                                   string.Format("reset: moving to {0}", tag.Target.Sha),
                                   oldHeadId);
