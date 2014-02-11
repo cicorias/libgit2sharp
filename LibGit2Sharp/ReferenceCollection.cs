@@ -80,6 +80,13 @@ namespace LibGit2Sharp
             Ensure.ArgumentNotNullOrEmptyString(name, "name");
             Ensure.ArgumentNotNull(targetId, "targetId");
 
+            // Don't even try if the ref wouldn't be moving
+            var dirRef = this[name] as DirectReference;
+            if (dirRef != null && dirRef.Target.Id == targetId)
+            {
+                return dirRef;
+            }
+
             if (signature == null)
             {
                 signature = repo.Config.BuildSignature(DateTimeOffset.Now);
@@ -129,6 +136,13 @@ namespace LibGit2Sharp
         {
             Ensure.ArgumentNotNullOrEmptyString(name, "name");
             Ensure.ArgumentNotNull(targetRef, "targetRef");
+
+            // Don't even try if we wouldn't be moving the ref
+            var symRef = this[name] as SymbolicReference;
+            if (symRef != null && symRef.Target == targetRef)
+            {
+                return symRef;
+            }
 
             if (signature == null)
             {
