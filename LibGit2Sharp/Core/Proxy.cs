@@ -2112,7 +2112,8 @@ namespace LibGit2Sharp.Core
             using (ThreadAffinity())
             using (var sigHandle = signature.BuildHandle())
             {
-                int res = NativeMethods.git_repository_set_head_detached(repo, commitish.Oid, sigHandle, logMessage);
+                GitOid oid = commitish.Oid;
+                int res = NativeMethods.git_repository_set_head_detached(repo, ref oid, sigHandle, logMessage);
                 Ensure.ZeroResult(res);
             }
         }

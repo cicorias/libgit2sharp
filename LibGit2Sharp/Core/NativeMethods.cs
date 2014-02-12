@@ -1158,7 +1158,7 @@ namespace LibGit2Sharp.Core
         [DllImport(libgit2)]
         internal static extern int git_repository_set_head_detached(
             RepositorySafeHandle repo,
-            GitOid commitish,
+            ref GitOid commitish,
             SignatureSafeHandle signature,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalCookie = UniqueId.UniqueIdentifier, MarshalTypeRef = typeof(StrictUtf8Marshaler))] string log_message);
 
