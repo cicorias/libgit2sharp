@@ -114,7 +114,7 @@ namespace LibGit2Sharp
         /// <param name="signature">Identity used for updating the reflog</param>
         /// <param name="logMessage">Message added to the reflog. If null, the default is "branch: Created from [sha]".</param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Branch"/>.</returns>
         public virtual Branch Add(string name, Commit commit, Signature signature, string logMessage = null, bool allowOverwrite = false)
         {
             Ensure.ArgumentNotNullOrEmptyString(name, "name");
@@ -169,7 +169,7 @@ namespace LibGit2Sharp
         /// <param name="signature">Identity used for updating the reflog</param>
         /// <param name="logMessage">Message added to the reflog. If null, the default is "branch: renamed [old] to [new]".</param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Branch"/>.</returns>
         /// <exception cref="LibGit2SharpException"></exception>
         public virtual Branch Move(Branch branch, string newName, Signature signature, string logMessage = null, bool allowOverwrite = false)
         {
@@ -190,7 +190,7 @@ namespace LibGit2Sharp
             if (logMessage == null)
             {
                 logMessage = string.Format(CultureInfo.InvariantCulture,
-                    "Branch: renamed {0} to {1}", branch.CanonicalName, Reference.LocalBranchPrefix + newName);
+                    "branch: renamed {0} to {1}", branch.CanonicalName, Reference.LocalBranchPrefix + newName);
             }
 
             using (ReferenceSafeHandle referencePtr = repo.Refs.RetrieveReferencePtr(Reference.LocalBranchPrefix + branch.Name))
@@ -248,16 +248,6 @@ namespace LibGit2Sharp
                 return string.Format(CultureInfo.InvariantCulture,
                     "Count = {0}", this.Count());
             }
-        }
-
-        private void LogBranch(Branch branch, string logMessage)
-        {
-            if (string.IsNullOrEmpty(logMessage))
-            {
-                return;
-            }
-
-            repo.Refs.Log(branch.CanonicalName).Append(branch.Tip.Id, branch.Tip.Committer, logMessage);
         }
     }
 }
