@@ -803,17 +803,12 @@ namespace LibGit2Sharp
         {
             Ensure.ArgumentNotNull(commit, "commit");
 
-            if (signature == null)
-            {
-                signature = Config.BuildSignature(DateTimeOffset.Now);
-            }
-
             if (logMessage == null)
             {
                 logMessage = string.Format("reset: moving to {0}", commit.Sha);
             }
 
-            Proxy.git_reset(handle, commit.Id, resetMode, signature, logMessage);
+            Proxy.git_reset(handle, commit.Id, resetMode, signature.OrDefault(Config), logMessage);
         }
 
         /// <summary>

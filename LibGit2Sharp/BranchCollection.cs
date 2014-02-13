@@ -120,16 +120,12 @@ namespace LibGit2Sharp
             Ensure.ArgumentNotNullOrEmptyString(name, "name");
             Ensure.ArgumentNotNull(commit, "commit");
 
-            if (signature == null)
-            {
-                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
-            }
             if (logMessage == null)
             {
                 logMessage = "branch: Created from " + commit.Id;
             }
 
-            using (Proxy.git_branch_create(repo.Handle, name, commit.Id, allowOverwrite, signature, logMessage)) {}
+            using (Proxy.git_branch_create(repo.Handle, name, commit.Id, allowOverwrite, signature.OrDefault(repo.Config), logMessage)) {}
 
             var branch = this[ShortToLocalName(name)];
             return branch;
@@ -183,10 +179,6 @@ namespace LibGit2Sharp
                         "Cannot rename branch '{0}'. It's a remote tracking branch.", branch.Name));
             }
 
-            if (signature == null)
-            {
-                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
-            }
             if (logMessage == null)
             {
                 logMessage = string.Format(CultureInfo.InvariantCulture,
@@ -195,7 +187,7 @@ namespace LibGit2Sharp
 
             using (ReferenceSafeHandle referencePtr = repo.Refs.RetrieveReferencePtr(Reference.LocalBranchPrefix + branch.Name))
             {
-                using (Proxy.git_branch_move(referencePtr, newName, allowOverwrite, signature, logMessage))
+                using (Proxy.git_branch_move(referencePtr, newName, allowOverwrite, signature.OrDefault(repo.Config), logMessage))
                 {
                 }
             }

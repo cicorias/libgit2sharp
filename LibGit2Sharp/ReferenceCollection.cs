@@ -87,12 +87,7 @@ namespace LibGit2Sharp
                 return dirRef;
             }
 
-            if (signature == null)
-            {
-                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
-            }
-
-            using (ReferenceSafeHandle handle = Proxy.git_reference_create(repo.Handle, name, targetId, allowOverwrite, signature, logMessage))
+            using (ReferenceSafeHandle handle = Proxy.git_reference_create(repo.Handle, name, targetId, allowOverwrite, signature.OrDefault(repo.Config), logMessage))
             {
                 return (DirectReference)Reference.BuildFromPtr<Reference>(handle, repo);
             }
@@ -144,12 +139,8 @@ namespace LibGit2Sharp
                 return symRef;
             }
 
-            if (signature == null)
-            {
-                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
-            }
-
-            using (ReferenceSafeHandle handle = Proxy.git_reference_symbolic_create(repo.Handle, name, targetRef.CanonicalName, allowOverwrite, signature, logMessage))
+            using (ReferenceSafeHandle handle = Proxy.git_reference_symbolic_create(repo.Handle, name, targetRef.CanonicalName,
+                allowOverwrite, signature.OrDefault(repo.Config), logMessage))
             {
                 return (SymbolicReference)Reference.BuildFromPtr<Reference>(handle, repo);
             }
@@ -209,14 +200,9 @@ namespace LibGit2Sharp
             Ensure.ArgumentNotNull(reference, "reference");
             Ensure.ArgumentNotNullOrEmptyString(newName, "newName");
 
-            if (signature == null)
-            {
-                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
-            }
-
             using (ReferenceSafeHandle handle = RetrieveReferencePtr(reference.CanonicalName))
             {
-                using (ReferenceSafeHandle handle_out = Proxy.git_reference_rename(handle, newName, allowOverwrite, signature, logMessage))
+                using (ReferenceSafeHandle handle_out = Proxy.git_reference_rename(handle, newName, allowOverwrite, signature.OrDefault(repo.Config), logMessage))
                 {
                     return Reference.BuildFromPtr<Reference>(handle_out, repo);
                 }
@@ -258,10 +244,7 @@ namespace LibGit2Sharp
             Ensure.ArgumentNotNull(directRef, "directRef");
             Ensure.ArgumentNotNull(targetId, "targetId");
 
-            if (signature == null)
-            {
-                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
-            }
+            signature = signature.OrDefault(repo.Config);
 
             Reference newTarget = UpdateTarget(directRef, targetId, signature, logMessage,
                 (rf, tgt) => Proxy.git_reference_set_target(rf, tgt, signature, logMessage));
@@ -306,10 +289,7 @@ namespace LibGit2Sharp
             Ensure.ArgumentNotNull(symbolicRef, "symbolicRef");
             Ensure.ArgumentNotNull(targetRef, "targetRef");
 
-            if (signature == null)
-            {
-                signature = repo.Config.BuildSignature(DateTimeOffset.Now);
-            }
+            signature = signature.OrDefault(repo.Config);
 
             Reference newTarget = UpdateTarget(symbolicRef, targetRef, signature, logMessage,
                 (h, r) => Proxy.git_reference_symbolic_set_target(h, r.CanonicalName, signature, logMessage));

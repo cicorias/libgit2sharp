@@ -59,13 +59,8 @@ namespace LibGit2Sharp
 
             if (refState == RefState.DoesNotExistButLooksValid && gitObject == null)
             {
-                if (signature == null)
-                {
-                    signature = refsColl.repo.Config.BuildSignature(DateTimeOffset.Now);
-                }
-
                 using (ReferenceSafeHandle handle = Proxy.git_reference_symbolic_create(refsColl.repo.Handle, name, canonicalRefNameOrObjectish, allowOverwrite,
-                    signature, logMessage))
+                    signature.OrDefault(refsColl.repo.Config), logMessage))
                 {
                     return Reference.BuildFromPtr<Reference>(handle, refsColl.repo);
                 }

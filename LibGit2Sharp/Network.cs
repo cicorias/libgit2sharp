@@ -131,11 +131,6 @@ namespace LibGit2Sharp
             // GC occuring in between setting the remote callbacks and actual usage in one of the functions afterwords.
             Proxy.git_remote_set_callbacks(remoteHandle, ref gitCallbacks);
 
-            // Default signature
-            if (signature == null)
-            {
-            }
-
             try
             {
                 Proxy.git_remote_connect(remoteHandle, GitDirection.Fetch);
@@ -336,14 +331,7 @@ namespace LibGit2Sharp
                         }
 
                         Proxy.git_push_status_foreach(pushHandle, pushStatusUpdates.Callback);
-
-                        // Default signature
-                        if (signature == null)
-                        {
-                            signature = repository.Config.BuildSignature(DateTimeOffset.Now);
-                        }
-
-                        Proxy.git_push_update_tips(pushHandle, signature, logMessage);
+                        Proxy.git_push_update_tips(pushHandle, SignatureOrDefault(signature, repository), logMessage);
                     }
                 }
                 finally
