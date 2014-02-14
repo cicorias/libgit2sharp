@@ -218,18 +218,22 @@ namespace LibGit2Sharp
         /// <param name="objectish">The source objectish to push.</param>
         /// <param name="destinationSpec">The reference to update on the remote.</param>
         /// <param name="pushOptions"><see cref="PushOptions"/> controlling push behavior</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
+        /// <param name="logMessage">Message to use when updating the reflog.</param>
         public virtual void Push(
             Remote remote,
             string objectish,
             string destinationSpec,
-            PushOptions pushOptions = null)
+            PushOptions pushOptions = null,
+            Signature signature = null,
+            string logMessage = null)
         {
             Ensure.ArgumentNotNull(remote, "remote");
             Ensure.ArgumentNotNull(objectish, "objectish");
             Ensure.ArgumentNotNullOrEmptyString(destinationSpec, destinationSpec);
 
             Push(remote, string.Format(CultureInfo.InvariantCulture,
-                "{0}:{1}", objectish, destinationSpec), pushOptions);
+                "{0}:{1}", objectish, destinationSpec), pushOptions, signature, logMessage);
         }
 
         /// <summary>
@@ -238,15 +242,19 @@ namespace LibGit2Sharp
         /// <param name="remote">The <see cref="Remote"/> to push to.</param>
         /// <param name="pushRefSpec">The pushRefSpec to push.</param>
         /// <param name="pushOptions"><see cref="PushOptions"/> controlling push behavior</param>
+        /// <param name="signature">Indentification for use when updating the reflog.</param>
+        /// <param name="logMessage">Message to use when updating the reflog.</param>
         public virtual void Push(
             Remote remote,
             string pushRefSpec,
-            PushOptions pushOptions = null)
+            PushOptions pushOptions = null,
+            Signature signature = null,
+            string logMessage = null)
         {
             Ensure.ArgumentNotNull(remote, "remote");
             Ensure.ArgumentNotNullOrEmptyString(pushRefSpec, "pushRefSpec");
 
-            Push(remote, new string[] { pushRefSpec }, pushOptions);
+            Push(remote, new string[] { pushRefSpec }, pushOptions, signature, logMessage);
         }
 
         /// <summary>

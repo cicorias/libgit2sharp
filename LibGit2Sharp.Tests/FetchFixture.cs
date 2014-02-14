@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LibGit2Sharp.Tests.TestHelpers;
 using Xunit;
@@ -84,6 +85,7 @@ namespace LibGit2Sharp.Tests
             using (var repo = new Repository(repoPath))
             {
                 Remote remote = repo.Network.Remotes.Add(remoteName, url);
+                Touch(repo.Info.WorkingDirectory, string.Format(".git/logs/refs/remotes/{0}/master", remoteName));
 
                 // Set up structures for the expected results
                 // and verifying the RemoteUpdateTips callback.
@@ -104,6 +106,11 @@ namespace LibGit2Sharp.Tests
 
                 // Verify the expected
                 expectedFetchState.CheckUpdatedReferences(repo);
+
+                // Verify the reflog entries
+                // BUG: something is preventing remote reflogs from being updated
+                //var reflogEntry = repo.Refs.Log("refs/remotes/testRemote/master").First();
+                //Assert.Equal("", reflogEntry.Message);
             }
         }
 

@@ -68,6 +68,11 @@ namespace LibGit2Sharp
 
             Ensure.GitObjectIsNotNull(gitObject, canonicalRefNameOrObjectish);
 
+            if (logMessage == null)
+            {
+                logMessage = string.Format("branch: created from {0}", canonicalRefNameOrObjectish);
+            }
+
             refsColl.EnsureHasLog(name);
             return refsColl.Add(name, gitObject.Id, signature, logMessage, allowOverwrite);
         }
@@ -152,10 +157,13 @@ namespace LibGit2Sharp
         /// </summary>
         /// <param name="currentName">The canonical name of the reference to rename.</param>
         /// <param name="newName">The new canonical name.</param>
+        /// <param name="signature">The identity used for updating the reflog</param>
+        /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/></param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing reference, false otherwise.</param>
         /// <param name="refsColl">The <see cref="ReferenceCollection"/> being worked with.</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        public static Reference Move(this ReferenceCollection refsColl, string currentName, string newName, bool allowOverwrite = false)
+        public static Reference Move(this ReferenceCollection refsColl, string currentName, string newName,
+            Signature signature = null, string logMessage = null, bool allowOverwrite = false)
         {
             Ensure.ArgumentNotNullOrEmptyString(currentName, "currentName");
 
@@ -168,7 +176,7 @@ namespace LibGit2Sharp
                         "Reference '{0}' doesn't exist. One cannot move a non existing reference.", currentName));
             }
 
-            return refsColl.Move(reference, newName, allowOverwrite);
+            return refsColl.Move(reference, newName, signature, logMessage, allowOverwrite);
         }
 
         /// <summary>

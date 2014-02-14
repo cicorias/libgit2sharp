@@ -99,7 +99,7 @@ namespace LibGit2Sharp
         /// <param name="name">The canonical name of the reference to create.</param>
         /// <param name="targetId">Id of the target object.</param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing reference, false otherwise.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Reference"/>.</returns>
         public virtual DirectReference Add(string name, ObjectId targetId, bool allowOverwrite = false)
         {
             return Add(name, targetId, null, null, allowOverwrite);
@@ -112,7 +112,8 @@ namespace LibGit2Sharp
         /// <param name="targetId">Id of the target object.</param>
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> when adding the <see cref="DirectReference"/></param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing reference, false otherwise.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Reference"/>.</returns>
+        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
         public virtual DirectReference Add(string name, ObjectId targetId, bool allowOverwrite, string logMessage)
         {
             return Add(name, targetId, null, logMessage, allowOverwrite);
@@ -194,11 +195,16 @@ namespace LibGit2Sharp
         /// <param name="signature">Identity used for updating the reflog</param>
         /// <param name="logMessage">Message added to the reflog.</param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing reference, false otherwise.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Reference"/>.</returns>
         public virtual Reference Move(Reference reference, string newName, Signature signature, string logMessage = null, bool allowOverwrite = false)
         {
             Ensure.ArgumentNotNull(reference, "reference");
             Ensure.ArgumentNotNullOrEmptyString(newName, "newName");
+
+            if (logMessage == null)
+            {
+                logMessage = string.Format("branch: renamed {0} to {1}", reference.CanonicalName, newName);
+            }
 
             using (ReferenceSafeHandle handle = RetrieveReferencePtr(reference.CanonicalName))
             {

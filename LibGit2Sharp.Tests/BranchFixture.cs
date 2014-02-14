@@ -847,7 +847,7 @@ namespace LibGit2Sharp.Tests
 
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
-                                  string.Format("Branch: renamed {0} to {1}", br2.CanonicalName, newBranch.CanonicalName),
+                                  string.Format("branch: renamed {0} to {1}", br2.CanonicalName, newBranch.CanonicalName),
                                   committer: repo.Config.BuildSignature(DateTimeOffset.Now));
             }
         }
@@ -888,7 +888,7 @@ namespace LibGit2Sharp.Tests
 
                 AssertRefLogEntry(repo, newBranch.CanonicalName,
                                   newBranch.Tip.Id,
-                                  string.Format("Branch: renamed {0} to {1}", br2.CanonicalName, newBranch.CanonicalName),
+                                  string.Format("branch: renamed {0} to {1}", br2.CanonicalName, newBranch.CanonicalName),
                                   committer: repo.Config.BuildSignature(DateTimeOffset.Now),
                                   from: test.Tip.Id);
             }
@@ -989,6 +989,41 @@ namespace LibGit2Sharp.Tests
         private static T[] SortedBranches<T>(IEnumerable<Branch> branches, Func<Branch, T> selector)
         {
             return branches.OrderBy(b => b.CanonicalName, StringComparer.Ordinal).Select(selector).ToArray();
+        }
+
+        [Fact]
+        public void CreatingABranchIncludesTheCorrectReflogEntries()
+        {
+            string path = CloneStandardTestRepo();
+            using (var repo = new Repository(path))
+            {
+                EnableRefLog(repo);
+                var branch = repo.Branches.Add("foo", repo.Head.Tip);
+                var logEntry = repo.Refs.Log(branch.CanonicalName).First();
+                Assert.Equal(string.Format("branch: Created from {0}", repo.Head.Tip.Sha), logEntry.Message);
+
+                branch = repo.Branches.Add("bar", repo.Head.Tip, null, "BAR");
+                logEntry = repo.Refs.Log(branch.CanonicalName).First();
+                Assert.Equal("BAR", logEntry.Message);
+            }
+        }
+
+        [Fact]
+        public void MovingABranchIncludesTheCorrectReflogEntries()
+        {
+            string path = CloneStandardTestRepo();
+            using (var repo = new Repository(path))
+            {
+                EnableRefLog(repo);
+                var master = repo.Branches["master"];
+                var newMaster = repo.Branches.Move(master, "new-master");
+                var logEntry = repo.Refs.Log(newMaster.CanonicalName).First();
+                Assert.Equal("branch: renamed refs/heads/master to refs/heads/new-master", logEntry.Message);
+
+                newMaster = repo.Branches.Move(newMaster, "new-master2", null, "MOVE");
+                logEntry = repo.Refs.Log(newMaster.CanonicalName).First();
+                Assert.Equal("MOVE", logEntry.Message);
+            }
         }
     }
 }
