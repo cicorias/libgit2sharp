@@ -6,7 +6,7 @@ namespace LibGit2Sharp
     /// <summary>
     /// Provides helper overloads for a <see cref="Signature"/>
     /// </summary>
-    public static class SignatureExtensions
+    internal static class SignatureExtensions
     {
         /// <summary>
         /// If the signature is null, return the default using configuration values.
@@ -16,8 +16,6 @@ namespace LibGit2Sharp
         /// <returns>A valid <see cref="Signature"/></returns>
         public static Signature OrDefault(this Signature signature, Configuration config)
         {
-            Ensure.ArgumentNotNull(config, "config");
-
             return signature ?? config.BuildSignature(DateTimeOffset.Now);
         }
     }
