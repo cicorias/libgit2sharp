@@ -999,12 +999,11 @@ namespace LibGit2Sharp.Tests
             {
                 EnableRefLog(repo);
                 var branch = repo.Branches.Add("foo", repo.Head.Tip);
-                var logEntry = repo.Refs.Log(branch.CanonicalName).First();
-                Assert.Equal(string.Format("branch: Created from {0}", repo.Head.Tip.Sha), logEntry.Message);
+                AssertRefLogEntry(repo, branch.CanonicalName, branch.Tip.Id,
+                    string.Format("branch: Created from {0}", repo.Head.Tip.Sha));
 
                 branch = repo.Branches.Add("bar", repo.Head.Tip, null, "BAR");
-                logEntry = repo.Refs.Log(branch.CanonicalName).First();
-                Assert.Equal("BAR", logEntry.Message);
+                AssertRefLogEntry(repo, branch.CanonicalName, repo.Head.Tip.Id, "BAR");
             }
         }
 
@@ -1017,12 +1016,11 @@ namespace LibGit2Sharp.Tests
                 EnableRefLog(repo);
                 var master = repo.Branches["master"];
                 var newMaster = repo.Branches.Move(master, "new-master");
-                var logEntry = repo.Refs.Log(newMaster.CanonicalName).First();
-                Assert.Equal("branch: renamed refs/heads/master to refs/heads/new-master", logEntry.Message);
+                AssertRefLogEntry(repo, newMaster.CanonicalName, newMaster.Tip.Id, 
+                    "branch: renamed refs/heads/master to refs/heads/new-master");
 
                 newMaster = repo.Branches.Move(newMaster, "new-master2", null, "MOVE");
-                logEntry = repo.Refs.Log(newMaster.CanonicalName).First();
-                Assert.Equal("MOVE", logEntry.Message);
+                AssertRefLogEntry(repo, newMaster.CanonicalName, newMaster.Tip.Id, "MOVE");
             }
         }
     }
