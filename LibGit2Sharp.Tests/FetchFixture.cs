@@ -110,7 +110,7 @@ namespace LibGit2Sharp.Tests
                 // Verify the reflog entries
                 // BUG: something is preventing remote reflogs from being updated
                 //var reflogEntry = repo.Refs.Log("refs/remotes/testRemote/master").First();
-                //Assert.Equal("", reflogEntry.Message);
+                //Assert.Equal("fetch", reflogEntry.Message);
             }
         }
 

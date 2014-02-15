@@ -173,16 +173,11 @@ namespace LibGit2Sharp.Tests
                                                  tree, Enumerable.Empty<Commit>());
 
                 var direct = repo.Refs.Add("refs/heads/direct", commit.Id);
-                var directLog = repo.Refs.Log(direct);
-                Assert.Equal(1, directLog.Count());
-                var directLogEntry = directLog.First();
-                Assert.Equal(directLogEntry.Commiter, repo.Config.BuildSignature(directLogEntry.Commiter.When));
-                Assert.True(string.IsNullOrEmpty(directLogEntry.Message));
+                AssertRefLogEntry(repo, direct.CanonicalName, direct.ResolveToDirectReference().Target.Id, null);
 
                 repo.Refs.EnsureHasLog("refs/heads/symbolic");
                 var symbolic = repo.Refs.Add("refs/heads/symbolic", direct);
-                var symbolicLog = repo.Refs.Log(symbolic);
-                Assert.Equal(0, symbolicLog.Count()); // creation of symbolic refs doesn't update the reflog
+                Assert.Empty(repo.Refs.Log(symbolic)); // creation of symbolic refs doesn't update the reflog
             }
         }
     }

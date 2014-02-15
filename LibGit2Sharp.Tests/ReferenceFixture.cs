@@ -110,6 +110,7 @@ namespace LibGit2Sharp.Tests
                 var newRef = repo.Refs.Add(name, targetRef, Constants.Signature, logMessage);
 
                 AssertSymbolicRef(newRef, repo, target, name);
+                Assert.Empty(repo.Refs.Log(newRef));
             }
         }
 
