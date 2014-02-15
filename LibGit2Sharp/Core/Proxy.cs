@@ -155,7 +155,7 @@ namespace LibGit2Sharp.Core
             using (var sigHandle = signature.BuildHandle())
             {
                 ReferenceSafeHandle reference;
-                int res = NativeMethods.git_branch_create(out reference, repo, branch_name, osw.ObjectPtr, force ? 1 : 0, sigHandle, logMessage);
+                int res = NativeMethods.git_branch_create(out reference, repo, branch_name, osw.ObjectPtr, force, sigHandle, logMessage);
                 Ensure.ZeroResult(res);
                 return reference;
             }
