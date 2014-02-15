@@ -96,16 +96,6 @@ namespace LibGit2Sharp
             }
         }
 
-        static Signature SignatureOrDefault(Signature signature, Repository repo)
-        {
-            if (signature != null)
-            {
-                return signature;
-            }
-
-            return repo.Config.BuildSignature(DateTimeOffset.Now);
-        }
-
         static void DoFetch(RemoteSafeHandle remoteHandle, FetchOptions options, Signature signature, string logMessage)
         {
             if (options == null)
@@ -158,7 +148,7 @@ namespace LibGit2Sharp
 
             using (RemoteSafeHandle remoteHandle = Proxy.git_remote_load(repository.Handle, remote.Name, true))
             {
-                DoFetch(remoteHandle, options, SignatureOrDefault(signature, repository), logMessage);
+                DoFetch(remoteHandle, options, signature.OrDefault(repository.Config), logMessage);
             }
         }
 
@@ -181,7 +171,7 @@ namespace LibGit2Sharp
             {
                 Proxy.git_remote_set_fetch_refspecs(remoteHandle, refspecs);
 
-                DoFetch(remoteHandle, options, SignatureOrDefault(signature, repository), logMessage);
+                DoFetch(remoteHandle, options, signature.OrDefault(repository.Config), logMessage);
             }
         }
 
@@ -207,7 +197,7 @@ namespace LibGit2Sharp
             {
                 Proxy.git_remote_set_fetch_refspecs(remoteHandle, refspecs);
 
-                DoFetch(remoteHandle, options, SignatureOrDefault(signature, repository), logMessage);
+                DoFetch(remoteHandle, options, signature.OrDefault(repository.Config), logMessage);
             }
         }
 
@@ -339,7 +329,7 @@ namespace LibGit2Sharp
                         }
 
                         Proxy.git_push_status_foreach(pushHandle, pushStatusUpdates.Callback);
-                        Proxy.git_push_update_tips(pushHandle, SignatureOrDefault(signature, repository), logMessage);
+                        Proxy.git_push_update_tips(pushHandle, signature.OrDefault(repository.Config), logMessage);
                     }
                 }
                 finally
