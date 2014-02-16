@@ -351,16 +351,9 @@ namespace LibGit2Sharp.Tests.TestHelpers
             Assert.Equal(message, reflogEntry.Message);
             Assert.Equal(@from ?? ObjectId.Zero, reflogEntry.From);
 
-            if (committer == null)
-            {
-                Assert.NotNull(reflogEntry.Commiter.Email);
-                Assert.NotNull(reflogEntry.Commiter.Name);
-            }
-            else
-            {
-                Assert.Equal(committer.Email, reflogEntry.Commiter.Email);
-                Assert.True(committer.When - reflogEntry.Commiter.When < TimeSpan.FromSeconds(1));
-            }
+            committer = committer ?? repo.Config.BuildSignature(DateTimeOffset.Now);
+            Assert.Equal(committer.Email, reflogEntry.Commiter.Email);
+            Assert.True(committer.When - reflogEntry.Commiter.When < TimeSpan.FromSeconds(1));
         }
 
         protected static void EnableRefLog(IRepository repository, bool enable = true)
