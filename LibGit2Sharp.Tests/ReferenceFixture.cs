@@ -515,7 +515,8 @@ namespace LibGit2Sharp.Tests
                 AssertRefLogEntry(repo, "HEAD",
                                   testTargetId,
                                   secondLogMessage,
-                                  testTargetId);
+                                  testTargetId,
+                                  Constants.Signature);
             }
         }
 
