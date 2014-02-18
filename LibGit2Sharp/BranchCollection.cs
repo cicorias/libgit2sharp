@@ -166,7 +166,6 @@ namespace LibGit2Sharp
         /// <param name="logMessage">Message added to the reflog. If null, the default is "branch: renamed [old] to [new]".</param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
         /// <returns>A new <see cref="Branch"/>.</returns>
-        /// <exception cref="LibGit2SharpException"></exception>
         public virtual Branch Move(Branch branch, string newName, Signature signature, string logMessage = null, bool allowOverwrite = false)
         {
             Ensure.ArgumentNotNull(branch, "branch");
