@@ -113,7 +113,7 @@ namespace LibGit2Sharp
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> when adding the <see cref="DirectReference"/></param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing reference, false otherwise.</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
+        [Obsolete("This method will be removed in the next release. Prefer the overload that takes a signature and a message for the reflog.")]
         public virtual DirectReference Add(string name, ObjectId targetId, bool allowOverwrite, string logMessage)
         {
             return Add(name, targetId, null, logMessage, allowOverwrite);
@@ -167,7 +167,7 @@ namespace LibGit2Sharp
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> when adding the <see cref="SymbolicReference"/></param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing reference, false otherwise.</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
+        [Obsolete("This method will be removed in the next release. Prefer the overload that takes a signature and a message for the reflog.")]
         public virtual SymbolicReference Add(string name, Reference targetRef, bool allowOverwrite, string logMessage)
         {
             return Add(name, targetRef, null, logMessage, allowOverwrite);
@@ -276,7 +276,7 @@ namespace LibGit2Sharp
         /// <param name="targetId">The new target.</param>
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> of the <paramref name="directRef"/> reference</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
+        [Obsolete("This method will be removed in the next release. Prefer the overload that takes a signature and a message for the reflog.")]
         public virtual Reference UpdateTarget(Reference directRef, ObjectId targetId, string logMessage)
         {
             return UpdateTarget(directRef, targetId, null, logMessage);
@@ -321,7 +321,7 @@ namespace LibGit2Sharp
         /// <param name="targetRef">The new target.</param>
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> of the <paramref name="symbolicRef"/> reference.</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
+        [Obsolete("This method will be removed in the next release. Prefer the overload that takes a signature and a message for the reflog.")]
         public virtual Reference UpdateTarget(Reference symbolicRef, Reference targetRef, string logMessage)
         {
             return UpdateTarget(symbolicRef, targetRef, null, logMessage);
