@@ -99,7 +99,7 @@ namespace LibGit2Sharp
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> when adding the <see cref="Reference"/></param>
         /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing reference, false otherwise.</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
+        [Obsolete("This method will be removed in the next release. Prefer the overload that takes a signature and a message for the reflog.")]
         public static Reference Add(this ReferenceCollection refsColl, string name, string canonicalRefNameOrObjectish, bool allowOverwrite, string logMessage)
         {
             return Add(refsColl, name, canonicalRefNameOrObjectish, null, logMessage, allowOverwrite);
@@ -146,7 +146,7 @@ namespace LibGit2Sharp
         /// <param name="objectish">The revparse spec of the target.</param>
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> of the <paramref name="directRef"/> reference.</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
+        [Obsolete("This method will be removed in the next release. Prefer the overload that takes a signature and a message for the reflog.")]
         public static Reference UpdateTarget(this ReferenceCollection refsColl, Reference directRef, string objectish, string logMessage)
         {
             return UpdateTarget(refsColl, directRef, objectish, null, logMessage);
@@ -244,7 +244,7 @@ namespace LibGit2Sharp
         /// <param name="canonicalRefNameOrObjectish">The target which can be either the canonical name of a reference or a revparse spec.</param>
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/> of the <paramref name="name"/> reference.</param>
         /// <returns>A new <see cref="Reference"/>.</returns>
-        [Obsolete("Prefer the overload that takes a signature and a message for the reflog.")]
+        [Obsolete("This method will be removed in the next release. Prefer the overload that takes a signature and a message for the reflog.")]
         public static Reference UpdateTarget(this ReferenceCollection refsColl, string name, string canonicalRefNameOrObjectish, string logMessage)
         {
             return UpdateTarget(refsColl, name, canonicalRefNameOrObjectish, null, logMessage);
