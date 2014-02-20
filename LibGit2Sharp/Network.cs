@@ -56,7 +56,7 @@ namespace LibGit2Sharp
         /// List references in a <see cref="Remote"/> repository.
         /// <para>
         /// When the remote tips are ahead of the local ones, the retrieved
-        /// <see cref="DirectReference"/>s may point to non  existing
+        /// <see cref="DirectReference"/>s may point to non existing
         /// <see cref="GitObject"/>s in the local repository. In that
         /// case, <see cref="DirectReference.Target"/> will return <c>null</c>.
         /// </para>
@@ -78,7 +78,7 @@ namespace LibGit2Sharp
         /// List references in a remote repository.
         /// <para>
         /// When the remote tips are ahead of the local ones, the retrieved
-        /// <see cref="DirectReference"/>s may point to non  existing
+        /// <see cref="DirectReference"/>s may point to non existing
         /// <see cref="GitObject"/>s in the local repository. In that
         /// case, <see cref="DirectReference.Target"/> will return <c>null</c>.
         /// </para>

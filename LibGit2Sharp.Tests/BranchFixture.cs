@@ -32,7 +32,7 @@ namespace LibGit2Sharp.Tests
                 Assert.Equal(committish, newBranch.Tip.Sha);
 
                 // Note the call to String.Normalize(). This is because, on Mac OS X, the filesystem
-                // decomposes the  UTF-8 characters on write, which results in a different set of bytes
+                // decomposes the UTF-8 characters on write, which results in a different set of bytes
                 // when they're read back:
                 // - from InlineData: C5-00-6E-00-67-00-73-00-74-00-72-00-F6-00-6D-00
                 // - from filesystem: 41-00-0A-03-6E-00-67-00-73-00-74-00-72-00-6F-00-08-03-6D-00

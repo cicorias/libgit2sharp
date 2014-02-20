@@ -120,7 +120,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Creates a symbolic reference  with the specified name and target
+        /// Creates a symbolic reference with the specified name and target
         /// </summary>
         /// <param name="name">The canonical name of the reference to create.</param>
         /// <param name="targetRef">The target reference.</param>
@@ -148,7 +148,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Creates a symbolic reference  with the specified name and target
+        /// Creates a symbolic reference with the specified name and target
         /// </summary>
         /// <param name="name">The canonical name of the reference to create.</param>
         /// <param name="targetRef">The target reference.</param>
@@ -160,7 +160,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Creates a symbolic reference  with the specified name and target
+        /// Creates a symbolic reference with the specified name and target
         /// </summary>
         /// <param name="name">The canonical name of the reference to create.</param>
         /// <param name="targetRef">The target reference.</param>
