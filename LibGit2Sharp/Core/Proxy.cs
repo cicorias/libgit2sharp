@@ -1037,6 +1037,11 @@ namespace LibGit2Sharp.Core
 
         public static string git_message_prettify(string message)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                return string.Empty;
+            }
+
             using (ThreadAffinity())
             using (var buf = new GitBuf())
             {
