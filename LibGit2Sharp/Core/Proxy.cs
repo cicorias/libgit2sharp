@@ -1502,7 +1502,7 @@ namespace LibGit2Sharp.Core
             {
                 ReferenceSafeHandle ref_out;
 
-                int res = NativeMethods.git_reference_rename(out ref_out, reference, newName, allowOverwrite ? 1 : 0, sigHandle, logMessage);
+                int res = NativeMethods.git_reference_rename(out ref_out, reference, newName, allowOverwrite, sigHandle, logMessage);
                 Ensure.ZeroResult(res);
 
                 return ref_out;
