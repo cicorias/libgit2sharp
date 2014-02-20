@@ -202,7 +202,7 @@ namespace LibGit2Sharp.Core
             using (var sigHandle = signature.BuildHandle())
             {
                 ReferenceSafeHandle ref_out;
-                int res = NativeMethods.git_branch_move(out ref_out, reference, new_branch_name, force ? 1 : 0, sigHandle, logMessage);
+                int res = NativeMethods.git_branch_move(out ref_out, reference, new_branch_name, force, sigHandle, logMessage);
                 Ensure.ZeroResult(res);
                 return ref_out;
             }
