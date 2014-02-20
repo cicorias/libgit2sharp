@@ -1633,7 +1633,6 @@ namespace LibGit2Sharp.Core
             using (ThreadAffinity())
             using (var buf = new GitBuf())
             {
-                // TODO: Use code pattern similar to Proxy.git_message_prettify() when available
                 int res = NativeMethods.git_refspec_rtransform(buf, refSpecPtr, name);
                 Ensure.ZeroResult(res);
 
