@@ -132,7 +132,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Create a new local branch with the specified name and a default reflog message
+        /// Create a new local branch with the specified name, using the default reflog message
         /// </summary>
         /// <param name="name">The name of the branch.</param>
         /// <param name="commit">The target commit.</param>
@@ -158,7 +158,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Rename an existing local branch, and update the reflog with the given parameters.
+        /// Rename an existing local branch
         /// </summary>
         /// <param name="branch">The current local branch.</param>
         /// <param name="newName">The new name the existing branch should bear.</param>
@@ -196,7 +196,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Renames an existing local branch with a new name.
+        /// Rename an existing local branch, using the default reflog message
         /// </summary>
         /// <param name="branch">The current local branch.</param>
         /// <param name="newName">The new name the existing branch should bear.</param>

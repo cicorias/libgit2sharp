@@ -8,7 +8,7 @@ namespace LibGit2Sharp
     public static class BranchCollectionExtensions
     {
         /// <summary>
-        /// Create a new local branch with the specified name and the default reflog entry.
+        /// Create a new local branch with the specified name, using the default reflog message
         /// </summary>
         /// <param name="name">The name of the branch.</param>
         /// <param name="committish">Revparse spec for the target commit.</param>
@@ -28,7 +28,7 @@ namespace LibGit2Sharp
         /// <param name="committish">Revparse spec for the target commit.</param>
         /// <param name="signature">The identity used for updating the reflog</param>
         /// <param name="logMessage">The optional message to log in the <see cref="ReflogCollection"/></param>
-        /// <param name="allowOverwrite"></param>
+        /// <param name="allowOverwrite">True to allow silent overwriting a potentially existing branch, false otherwise.</param>
         /// <returns>A new <see cref="Branch"/>.</returns>
         public static Branch Add(this BranchCollection branches, string name, string committish, Signature signature,
             string logMessage = null, bool allowOverwrite = false)
@@ -70,7 +70,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Renames an existing local branch with a new name.
+        /// Rename an existing local branch, using the default reflog message
         /// </summary>
         /// <param name="currentName">The current branch name.</param>
         /// <param name="newName">The new name the existing branch should bear.</param>
