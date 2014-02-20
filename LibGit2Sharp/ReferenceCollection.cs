@@ -188,7 +188,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Rename an existing reference with a new name, and update the reflog.
+        /// Rename an existing reference with a new name, and update the reflog
         /// </summary>
         /// <param name="reference">The reference to rename.</param>
         /// <param name="newName">The new canonical name.</param>
@@ -259,7 +259,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a direct reference.
+        /// Updates the target of a direct reference
         /// </summary>
         /// <param name="directRef">The direct reference which target should be updated.</param>
         /// <param name="targetId">The new target.</param>
@@ -270,7 +270,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a direct reference.
+        /// Updates the target of a direct reference
         /// </summary>
         /// <param name="directRef">The direct reference which target should be updated.</param>
         /// <param name="targetId">The new target.</param>
@@ -283,7 +283,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a symbolic reference.
+        /// Updates the target of a symbolic reference
         /// </summary>
         /// <param name="symbolicRef">The symbolic reference which target should be updated.</param>
         /// <param name="targetRef">The new target.</param>
@@ -304,7 +304,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a symbolic reference.
+        /// Updates the target of a symbolic reference
         /// </summary>
         /// <param name="symbolicRef">The symbolic reference which target should be updated.</param>
         /// <param name="targetRef">The new target.</param>
@@ -315,7 +315,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a symbolic reference.
+        /// Updates the target of a symbolic reference
         /// </summary>
         /// <param name="symbolicRef">The symbolic reference which target should be updated.</param>
         /// <param name="targetRef">The new target.</param>

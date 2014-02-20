@@ -127,7 +127,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a direct reference.
+        /// Updates the target of a direct reference
         /// </summary>
         /// <param name="refsColl">The <see cref="ReferenceCollection"/> being worked with.</param>
         /// <param name="directRef">The direct reference which target should be updated.</param>
@@ -139,7 +139,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a direct reference.
+        /// Updates the target of a direct reference
         /// </summary>
         /// <param name="refsColl">The <see cref="ReferenceCollection"/> being worked with.</param>
         /// <param name="directRef">The direct reference which target should be updated.</param>
@@ -180,7 +180,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a reference.
+        /// Updates the target of a reference
         /// </summary>
         /// <param name="refsColl">The <see cref="ReferenceCollection"/> being worked with.</param>
         /// <param name="name">The canonical name of the reference.</param>
@@ -225,7 +225,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a reference.
+        /// Updates the target of a reference
         /// </summary>
         /// <param name="refsColl">The <see cref="ReferenceCollection"/> being worked with.</param>
         /// <param name="name">The canonical name of the reference.</param>
@@ -237,7 +237,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Updates the target of a reference.
+        /// Updates the target of a reference
         /// </summary>
         /// <param name="refsColl">The <see cref="ReferenceCollection"/> being worked with.</param>
         /// <param name="name">The canonical name of the reference.</param>
