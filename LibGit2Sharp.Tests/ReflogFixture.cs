@@ -67,6 +67,11 @@ namespace LibGit2Sharp.Tests
                 Assert.Equal(commit.Id, reflogEntry.To);
                 Assert.Equal(ObjectId.Zero, reflogEntry.From);
 
+                reflogEntry = repo.Refs.Log("HEAD").ElementAt(1);
+                // TODO: This isn't correct; the "to" field should be the OID that unit_test points to.
+                Assert.Equal(ObjectId.Zero, reflogEntry.To);
+                Assert.Equal(ObjectId.Zero, reflogEntry.From);
+
                 // Assert the same reflog entry is created on refs/heads/master
                 Assert.Equal(1, repo.Refs.Log("refs/heads/master").Count());
                 reflogEntry = repo.Refs.Log("HEAD").First();
