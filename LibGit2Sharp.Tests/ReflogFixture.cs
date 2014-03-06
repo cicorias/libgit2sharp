@@ -32,6 +32,15 @@ namespace LibGit2Sharp.Tests
         }
 
         [Fact]
+        public void ReflogOfUnbornReferenceIsEmpty()
+        {
+            using (var repo = new Repository(StandardTestRepoWorkingDirPath))
+            {
+                Assert.Empty(repo.Refs.Log("refs/heads/toto"));
+            }
+        }
+
+        [Fact]
         public void ReadingReflogOfInvalidReferenceNameThrows()
         {
             using (var repo = new Repository(StandardTestRepoWorkingDirPath))
@@ -180,7 +189,6 @@ namespace LibGit2Sharp.Tests
                 var direct = repo.Refs.Add("refs/heads/direct", commit.Id);
                 AssertRefLogEntry(repo, direct.CanonicalName, direct.ResolveToDirectReference().Target.Id, null);
 
-                repo.Refs.EnsureHasLog("refs/heads/symbolic");
                 var symbolic = repo.Refs.Add("refs/heads/symbolic", direct);
                 Assert.Empty(repo.Refs.Log(symbolic)); // creation of symbolic refs doesn't update the reflog
             }

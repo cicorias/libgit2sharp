@@ -106,7 +106,6 @@ namespace LibGit2Sharp.Tests
 
                 var targetRef = repo.Refs[target];
 
-                repo.Refs.EnsureHasLog(name);
                 var newRef = repo.Refs.Add(name, targetRef, Constants.Signature, logMessage);
 
                 AssertSymbolicRef(newRef, repo, target, name);
@@ -641,8 +640,6 @@ namespace LibGit2Sharp.Tests
                 const string newName = "refs/atic/tagtest";
 
                 EnableRefLog(repo);
-                repo.Refs.EnsureHasLog(oldName);
-                repo.Refs.EnsureHasLog(newName);
 
                 var oldId = repo.Refs[oldName].ResolveToDirectReference().Target.Id;
                 Reference moved = repo.Refs.Move(oldName, newName);

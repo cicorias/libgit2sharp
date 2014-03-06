@@ -85,7 +85,6 @@ namespace LibGit2Sharp.Tests
             using (var repo = new Repository(repoPath))
             {
                 Remote remote = repo.Network.Remotes.Add(remoteName, url);
-                repo.Refs.EnsureHasLog(string.Format("refs/remotes/{0}/master", remoteName));
 
                 // Set up structures for the expected results
                 // and verifying the RemoteUpdateTips callback.

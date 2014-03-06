@@ -73,7 +73,6 @@ namespace LibGit2Sharp
                 logMessage = string.Format("branch: created from {0}", canonicalRefNameOrObjectish);
             }
 
-            refsColl.EnsureHasLog(name);
             return refsColl.Add(name, gitObject.Id, signature, logMessage, allowOverwrite);
         }
 
