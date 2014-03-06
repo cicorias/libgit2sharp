@@ -642,6 +642,8 @@ namespace LibGit2Sharp.Tests
                 EnableRefLog(repo);
 
                 var oldId = repo.Refs[oldName].ResolveToDirectReference().Target.Id;
+                // TODO: Should we do something with oldId?
+
                 Reference moved = repo.Refs.Move(oldName, newName);
                 Assert.NotNull(moved);
                 Assert.Equal(newName, moved.CanonicalName);
