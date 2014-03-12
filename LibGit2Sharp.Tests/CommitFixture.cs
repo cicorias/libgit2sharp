@@ -323,8 +323,8 @@ namespace LibGit2Sharp.Tests
                                                             new ObjectId("e90810b8df3e80c413d903f631643c716887138d") } },
                 new[]
                     {
-                        "4c062a6", "a4a7dce", "e90810b", "6dcf9bf",
-                        "be3563a", "9fd738e", "c47800c", "4a202b3",
+                        "4c062a6", "e90810b", "6dcf9bf", "a4a7dce",
+                        "be3563a", "c47800c", "9fd738e", "4a202b3",
                         "5b5b025", "8496071",
                     });
         }
@@ -336,7 +336,7 @@ namespace LibGit2Sharp.Tests
                 repo => new CommitFilter { Since = repo.Refs.FromGlob("refs/heads/*") },
                 new[]
                    {
-                       "4c062a6", "e90810b", "6dcf9bf", "a4a7dce", "be3563a", "c47800c", "4a202b3", "9fd738e", "41bc8c6", "5001298", "5b5b025", "8496071"
+                       "4c062a6", "e90810b", "6dcf9bf", "a4a7dce", "be3563a", "c47800c", "9fd738e", "4a202b3", "41bc8c6", "5001298", "5b5b025", "8496071"
                    });
         }
 
@@ -381,11 +381,10 @@ namespace LibGit2Sharp.Tests
                     },
                 new[]
                     {
-                        "44d5d18", "bb65291", "532740a", "503a16f",
-                        "3dfd6fd", "4409de1", "902c60b", "e90810b",
-                        "6dcf9bf", "a4a7dce", "4c062a6", "be3563a",
-                        "c47800c", "9fd738e", "4a202b3", "5b5b025",
-                        "41bc8c6", "5001298", "8496071",
+                        "44d5d18", "bb65291", "532740a", "503a16f", "3dfd6fd",
+                        "4409de1", "902c60b", "4c062a6", "e90810b", "6dcf9bf",
+                        "a4a7dce", "be3563a", "c47800c", "9fd738e", "4a202b3",
+                        "41bc8c6", "5001298", "5b5b025", "8496071",
                     });
         }
 
