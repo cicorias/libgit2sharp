@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using LibGit2Sharp.Tests.TestHelpers;
 using Xunit;
@@ -107,7 +106,7 @@ namespace LibGit2Sharp.Tests
                 expectedFetchState.CheckUpdatedReferences(repo);
 
                 // Verify the reflog entries
-                // BUG: something is preventing remote reflogs from being updated
+                //TODO: BUG something is preventing remote reflogs from being updated
                 //var reflogEntry = repo.Refs.Log("refs/remotes/testRemote/master").First();
                 //Assert.Equal("fetch", reflogEntry.Message);
             }
