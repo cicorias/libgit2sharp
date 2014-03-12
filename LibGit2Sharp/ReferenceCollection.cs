@@ -472,5 +472,14 @@ namespace LibGit2Sharp
 
             historyRewriter.Execute();
         }
+
+        /// <summary>
+        /// Ensure that a reflog exists for the given canonical name
+        /// </summary>
+        /// <param name="canonicalName">Canonical name of the reference</param>
+        internal void EnsureHasLog(string canonicalName)
+        {
+            Proxy.git_reference_ensure_log(repo.Handle, canonicalName);
+        }
     }
 }
